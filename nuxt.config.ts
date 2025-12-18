@@ -18,13 +18,8 @@ export default defineNuxtConfig({
     '~/assets/css/main.css'
   ],
 
-  /**
-   * Route rules
-   * - Do NOT prerender auth pages
-   * - Redirect resources index
-   */
   routeRules: {
-    '/': { prerender: false }, // 👈 CRITICAL: prevent Clerk crash
+    '/': { prerender: false },
     '/resources': {
       redirect: '/resources/getting-started',
       prerender: false
@@ -33,14 +28,18 @@ export default defineNuxtConfig({
 
   compatibilityDate: '2024-07-11',
 
-  /**
-   * Nitro prerender config
-   * - Disable crawling to avoid accidental auth routes
-   * - No forced routes
-   */
   nitro: {
     prerender: {
       crawlLinks: false
     }
+  },
+
+  /**
+   * 🚨 CRITICAL FIX
+   * Disable OG image generation at build time
+   * (prevents Clerk from executing during build)
+   */
+  ogImage: {
+    enabled: process.env.VERCEL !== '1'
   }
 })
