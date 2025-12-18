@@ -1,7 +1,8 @@
+// server/middleware/clerk.ts
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nuxt/server'
 import { defineEventHandler } from 'h3'
 
-// Public & internal routes
+// List routes that should be accessible without a login
 const isPublicRoute = createRouteMatcher([
   '/',
   '/resources/:path(.*)',
@@ -12,19 +13,17 @@ const isPublicRoute = createRouteMatcher([
 ])
 
 export default defineEventHandler((event) => {
-  /**
-   * 🚨 ABSOLUTE RULE:
-   * Never run Clerk during prerender / build
-   */
-  if (event.context.nitro?.prerender) {
+  // 1. EMERGENCY EXIT: If we are building/prerendering, 
+  // Clerk must NOT run.
+  if (import.meta.prerender || event.context.nitro?.prerender) {
     return
   }
 
-  // Skip Clerk for public routes
+  // 2. Skip authentication for the public routes defined above
   if (isPublicRoute(event)) {
     return
   }
 
-  // Run Clerk ONLY for real runtime requests
+  // 3. Only run Clerk for real-time requests from actual users
   return clerkMiddleware()(event)
 })

@@ -1,4 +1,4 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+// nuxt.config.ts
 export default defineNuxtConfig({
   modules: [
     '@nuxt/image',
@@ -9,8 +9,31 @@ export default defineNuxtConfig({
     '@clerk/nuxt'
   ],
 
-  devtools: {
-    enabled: true
+  // 1. Map keys explicitly so the module doesn't "guess" 
+  // and crash when it can't find them during build.
+  runtimeConfig: {
+    clerkSecretKey: process.env.NUXT_CLERK_SECRET_KEY || process.env.CLERK_SECRET_KEY,
+    public: {
+      clerkPublishableKey: process.env.NUXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+    }
+  },
+
+  // 2. The most important part: Kill the crawler.
+  // This prevents Nitro from "pretending" to be a user during the build.
+  nitro: {
+    prerender: {
+      crawlLinks: false,
+      routes: ['/'], // Only prerender the home page (static)
+      ignore: ['/resources/**', '/dashboard/**'] // Force skip auth-heavy areas
+    }
+  },
+
+  routeRules: {
+    '/resources': { redirect: '/resources/getting-started' },
+    // Ensure auth pages are always dynamic (SSR), never static
+    '/sign-in/**': { prerender: false },
+    '/sign-up/**': { prerender: false },
+    '/dashboard/**': { prerender: false }
   },
 
   css: [
@@ -18,29 +41,11 @@ export default defineNuxtConfig({
     '~/assets/css/main.css'
   ],
 
-  routeRules: {
-    '/resources': {
-      redirect: '/resources/getting-started'
-    }
-  },
-
+  devtools: { enabled: true },
   compatibilityDate: '2024-07-11',
 
-  /**
-   * 🚨 EFFECTIVELY DISABLE PRERENDER (TypeScript-safe)
-   */
-  nitro: {
-    prerender: {
-      routes: [],
-      crawlLinks: false,
-      failOnError: false
-    }
-  },
-
-  /**
-   * Disable OG image generation during Vercel build
-   */
   ogImage: {
+    // Disable during Vercel build to save resources and prevent timeouts
     enabled: process.env.VERCEL !== '1'
   }
 })
