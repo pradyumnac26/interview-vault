@@ -1,9 +1,14 @@
 {
-  "version": 2,
   "cleanUrls": true,
-  "framework": "nuxt",
+  "trailingSlash": false,
   "rewrites": [
-    { "source": "/resources", "destination": "/resources/getting-started" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "source": "/resources",
+      "destination": "/resources/getting-started"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
   ]
 }
