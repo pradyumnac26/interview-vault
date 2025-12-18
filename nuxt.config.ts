@@ -1,14 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-
- 
   modules: [
     '@nuxt/image',
     '@nuxt/ui',
     '@nuxt/content',
     '@vueuse/nuxt',
-    'nuxt-og-image', 
-     '@clerk/nuxt'
+    'nuxt-og-image',
+    '@clerk/nuxt'
   ],
 
   devtools: {
@@ -16,24 +14,33 @@ export default defineNuxtConfig({
   },
 
   css: [
-    'highlight.js/styles/atom-one-dark.css', // 1) base theme
-    '~/assets/css/main.css'                  // 2) your overrides (wins)
+    'highlight.js/styles/atom-one-dark.css',
+    '~/assets/css/main.css'
   ],
 
+  /**
+   * Route rules
+   * - Do NOT prerender auth pages
+   * - Redirect resources index
+   */
   routeRules: {
-    '/resources': { redirect: '/resources/getting-started', prerender: false }
+    '/': { prerender: false }, // 👈 CRITICAL: prevent Clerk crash
+    '/resources': {
+      redirect: '/resources/getting-started',
+      prerender: false
+    }
   },
 
   compatibilityDate: '2024-07-11',
 
+  /**
+   * Nitro prerender config
+   * - Disable crawling to avoid accidental auth routes
+   * - No forced routes
+   */
   nitro: {
     prerender: {
-      routes: [
-        '/'
-      ],
-      crawlLinks: true
+      crawlLinks: false
     }
-  },
-
-
+  }
 })
