@@ -1,0 +1,268 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+@source "../../../content/**/*";
+
+@theme static {
+  --font-sans: 'Public Sans', sans-serif;
+
+  --color-green-50: #EFFDF5;
+  --color-green-100: #D9FBE8;
+  --color-green-200: #B3F5D1;
+  --color-green-300: #75EDAE;
+  --color-green-400: #00DC82;
+  --color-green-500: #00C16A;
+  --color-green-600: #00A155;
+  --color-green-700: #007F45;
+  --color-green-800: #016538;
+  --color-green-900: #0A5331;
+  --color-green-950: #052E16;
+}
+
+/* Dark-mode background tweaks for Nuxt UI */
+.dark {
+  --ui-bg: var(--ui-color-neutral-950);
+  --ui-bg-muted: var(--ui-color-neutral-900);
+  --ui-bg-elevated: var(--ui-color-neutral-900);
+  --ui-bg-accented: var(--ui-color-neutral-800);
+}
+
+/* Let the card/container control bg, not highlight.js */
+.hljs {
+  background-color: transparent !important;
+}
+
+/* Base heading styles (both light & dark) */
+.prose h1,
+.prose h2,
+.prose h3 {
+  margin-top: 0.75rem;
+  margin-bottom: 0.4rem;
+
+  font-weight: 700;
+  position: relative;
+  display: block;          /* stays on its own line */
+  width: max-content;      /* 🔥 shrink-to-fit the text */
+  max-width: 100%;         /* safety so it never overflows container */
+  z-index: 0;
+}
+
+.prose h1 {
+  font-size: 1.4rem;
+}
+
+.prose h2 {
+  font-size: 1.05rem;
+}
+
+.prose h3 {
+  font-size: 0.95rem;
+  margin-top: 0.25rem;     /* a bit tighter for subtitles like Memory Cues */
+}
+
+/* Light mode heading colors */
+html:not(.dark) .prose h1 { color: #0f172a; }
+html:not(.dark) .prose h2 { color: #111827; }
+html:not(.dark) .prose h3 { color: #111827; }
+
+/* Dark mode heading colors */
+html.dark .prose h1,
+html.dark .prose h2,
+html.dark .prose h3 {
+  color: #e5e7eb;
+}
+
+/* ===== Hand-drawn highlights (same as you had) ===== */
+/* H1 – brighter mint green */
+html:not(.dark) .prose h1::before {
+  content: "";
+  position: absolute;
+  left: -0.2em;
+  right: -0.2em;
+  bottom: 0.1em;
+  height: 0.55em;
+  background: #8eeab0;           /* 💚 green-300 – brighter */
+  border-radius: 999px;
+  transform: rotate(-1.5deg);
+  z-index: -1;
+  opacity: 0.98;
+}
+
+html.dark .prose h1::before {
+  content: "";
+  position: absolute;
+  left: -0.2em;
+  right: -0.2em;
+  bottom: 0.1em;
+  height: 0.55em;
+  background: rgba(34, 197, 94, 0.65); /* brighter in dark */
+  border-radius: 999px;
+  transform: rotate(-1.5deg);
+  z-index: -1;
+}
+
+/* H2 – brighter sky blue */
+html:not(.dark) .prose h2::before {
+  content: "";
+  position: absolute;
+  left: -0.18em;
+  right: -0.18em;
+  bottom: 0.08em;
+  height: 0.5em;
+  background: #bbdff5;           /* 💙 sky-200 – more pop */
+  border-radius: 999px;
+  transform: rotate(-1deg);
+  z-index: -1;
+  opacity: 0.96;
+}
+
+html.dark .prose h2::before {
+  content: "";
+  position: absolute;
+  left: -0.18em;
+  right: -0.18em;
+  bottom: 0.08em;
+  height: 0.5em;
+  background: rgba(56, 189, 248, 0.6); /* brighter in dark */
+  border-radius: 999px;
+  transform: rotate(-1deg);
+  z-index: -1;
+}
+
+/* H3 – brighter amber */
+html:not(.dark) .prose h3::before {
+  content: "";
+  position: absolute;
+  left: -0.15em;
+  right: -0.15em;
+  bottom: 0.05em;
+  height: 0.45em;
+  background: #fde68a;           /* 💛 amber-200 – brighter */
+  border-radius: 999px;
+  transform: rotate(-1.5deg);
+  z-index: -1;
+  opacity: 0.96;
+}
+
+html.dark .prose h3::before {
+  content: "";
+  position: absolute;
+  left: -0.15em;
+  right: -0.15em;
+  bottom: 0.05em;
+  height: 0.45em;
+  background: rgba(251, 191, 36, 0.6); /* brighter in dark */
+  border-radius: 999px;
+  transform: rotate(-1.5deg);
+  z-index: -1;
+}
+
+
+/* ================================
+   Stronger code colors in LIGHT mode
+   ================================ */
+
+html:not(.dark) .hljs {
+  color: #111827; /* base text: slate-900 */
+}
+
+/* keywords: def, while, if, return, class, etc. */
+html:not(.dark) .hljs-keyword {
+  color: #7c3aed;           /* purple-600/700 */
+  font-weight: 500;
+}
+
+/* function names (search), class names (Solution) */
+html:not(.dark) .hljs-title.function_,
+html:not(.dark) .hljs-title.class_ {
+  color: #2563eb;           /* blue-600 */
+  font-weight: 500;
+}
+
+/* built-ins / types: int, List, len, range, etc. */
+html:not(.dark) .hljs-built_in,
+html:not(.dark) .hljs-type {
+  color: #15803d;           /* green-700 */
+}
+
+/* numbers & literals: 0, 1, -1, True, False, None */
+html:not(.dark) .hljs-number,
+html:not(.dark) .hljs-literal {
+  color: #c2410c;           /* orange-700 */
+}
+
+/* strings: "..." */
+html:not(.dark) .hljs-string {
+  color: #16a34a;           /* green-600 */
+}
+
+/* attributes / variables – slightly teal */
+html:not(.dark) .hljs-attr,
+html:not(.dark) .hljs-property,
+html:not(.dark) .hljs-variable {
+  color: #0f766e;           /* teal-700 */
+}
+
+/* comments + quotes: grey + italic */
+html:not(.dark) .hljs-comment,
+html:not(.dark) .hljs-quote {
+  color: #6b7280;           /* slate-500 */
+  font-style: italic;
+}
+
+/* Restore bullets / numbers inside PortableText prose */
+.prose ul,
+.prose ol {
+  list-style-position: outside;
+  padding-left: 1.5rem;   /* indent like LeetCode */
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.prose ul {
+  list-style-type: disc;
+}
+
+.prose ol {
+  list-style-type: decimal;
+}
+
+/* Make markers visible in dark mode too */
+.prose li::marker {
+  color: #e5e7eb; /* light grey for dark bg */
+}
+
+html:not(.dark) .prose li::marker {
+  color: #4b5563; /* slate-600 in light mode */
+}
+/* H1 – move highlight slightly up */
+html:not(.dark) .prose h1::before,
+html.dark .prose h1::before {
+  bottom: 0.22em;          /* was 0.1em */
+}
+
+/* H2 – move highlight slightly up */
+html:not(.dark) .prose h2::before,
+html.dark .prose h2::before {
+  bottom: 0.18em;          /* was 0.08em */
+}
+
+/* H3 – move highlight slightly up */
+html:not(.dark) .prose h3::before,
+html.dark .prose h3::before {
+  bottom: 0.14em;          /* was 0.05em */
+}
+/* More breathing room between lines */
+.prose p,
+.prose li {
+  line-height: 1.7;      /* default is ~1.5, this is a bit looser */
+}
+
+/* Slight extra gap between bullet points / paragraphs */
+.prose p + p,
+.prose li + li {
+  margin-top: 0.25rem;
+}
+html {
+  font-size: 17px; /* default is 16px – this is “just a bit” bigger */
+}
