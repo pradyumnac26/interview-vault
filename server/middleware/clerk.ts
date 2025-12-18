@@ -1,22 +1,22 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nuxt/server'
 import { defineEventHandler } from 'h3'
 
-// Match routes that should NOT require Clerk
+// ✅ path-to-regexp compatible patterns ONLY
 const isPublicRoute = createRouteMatcher([
   '/',
-  '/resources/**',
-  '/__nuxt_content/**',
-  '/_nuxt/**',
+  '/resources/:path(.*)',
+  '/__nuxt_content/:path(.*)',
+  '/_nuxt/:path(.*)',
   '/favicon.ico',
   '/robots.txt'
 ])
 
 export default defineEventHandler((event) => {
-  // 🚨 Skip Clerk for Nuxt internal + public routes
+  // Skip Clerk for public & internal routes
   if (isPublicRoute(event)) {
     return
   }
 
-  // Apply Clerk auth to everything else
+  // Apply Clerk auth everywhere else
   return clerkMiddleware()(event)
 })
