@@ -1,6 +1,9 @@
 {
-  "routes": [
-    { "src": "/_nuxt/(.*)", "dest": "/_nuxt/$1" },
-    { "src": "/(.*)", "dest": "/" }
+  "version": 2,
+  "cleanUrls": true,
+  "framework": "nuxt",
+  "rewrites": [
+    { "source": "/resources", "destination": "/resources/getting-started" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
