@@ -19,26 +19,27 @@ export default defineNuxtConfig({
   ],
 
   routeRules: {
-    '/': { prerender: false },
     '/resources': {
-      redirect: '/resources/getting-started',
-      prerender: false
-    },
-
-    // Never prerender Nuxt Content internals
-    '/__nuxt_content/**': { prerender: false }
+      redirect: '/resources/getting-started'
+    }
   },
 
   compatibilityDate: '2024-07-11',
 
+  /**
+   * 🚨 EFFECTIVELY DISABLE PRERENDER (TypeScript-safe)
+   */
   nitro: {
     prerender: {
+      routes: [],
       crawlLinks: false,
-      ignore: ['/__nuxt_content/**']
+      failOnError: false
     }
   },
 
-  // Disable OG image generation during Vercel build
+  /**
+   * Disable OG image generation during Vercel build
+   */
   ogImage: {
     enabled: process.env.VERCEL !== '1'
   }
