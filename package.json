@@ -26,6 +26,7 @@
     "lucide-vue-next": "^0.554.0",
     "nuxt": "^4.2.1",
     "nuxt-og-image": "^5.1.12",
+    "pnpm": "^10.26.0",
     "react-rough-notation": "^1.0.8",
     "zod": "^4.1.12"
   },
