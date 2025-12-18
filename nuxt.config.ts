@@ -1,15 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 
-  eslint: {
-    checker: false, // ✅ disables CI/build checker
-    config: {
-      stylistic: {
-        commaDangle: 'never',
-        braceStyle: '1tbs'
-      }
-    }
-  },
+ 
   modules: [
     '@nuxt/image',
     '@nuxt/ui',
