@@ -1,4 +1,3 @@
-// nuxt.config.ts
 export default defineNuxtConfig({
   modules: [
     '@nuxt/image',
@@ -9,30 +8,31 @@ export default defineNuxtConfig({
     '@clerk/nuxt'
   ],
 
-  // 1. Map keys explicitly so the module doesn't "guess" 
-  // and crash when it can't find them during build.
   runtimeConfig: {
-    clerkSecretKey: process.env.NUXT_CLERK_SECRET_KEY || process.env.CLERK_SECRET_KEY,
     public: {
       clerkPublishableKey: process.env.NUXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
-    }
+    },
+    clerkSecretKey: process.env.NUXT_CLERK_SECRET_KEY,
   },
 
-  // 2. The most important part: Kill the crawler.
-  // This prevents Nitro from "pretending" to be a user during the build.
   nitro: {
     prerender: {
-      crawlLinks: true,
-      failOnError: false,
+      crawlLinks: true,    // This will find your .md files automatically
+      failOnError: false,  // If a page has an error during build, keep going
     }
   },
 
   routeRules: {
-    '/resources': { redirect: '/resources/getting-started' },
-    // Ensure auth pages are always dynamic (SSR), never static
-    '/sign-in/**': { prerender: false },
-    '/sign-up/**': { prerender: false },
-    '/dashboard/**': { prerender: false }
+    // 1. Resources: Prerender these so they don't 404 on refresh
+    '/resources/**': { prerender: true, ssr: true },
+
+    // 2. Auth: Match your actual URLs (/login and /signup)
+    // We set ssr: false here so Clerk doesn't cause "blank page" hydration errors
+    '/login/**': { ssr: false },
+    '/signup/**': { ssr: false },
+
+    // 3. Accessibility: Ensure the rest of the site is standard SSR
+    '/**': { ssr: true }
   },
 
   css: [
@@ -44,7 +44,6 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-07-11',
 
   ogImage: {
-    // Disable during Vercel build to save resources and prevent timeouts
-    enabled: process.env.VERCEL !== '1'
+    enabled: process.env.VERCEL === '1'
   }
 })
