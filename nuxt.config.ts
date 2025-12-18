@@ -22,9 +22,8 @@ export default defineNuxtConfig({
   // This prevents Nitro from "pretending" to be a user during the build.
   nitro: {
     prerender: {
-      crawlLinks: false,
-      routes: ['/'], // Only prerender the home page (static)
-      ignore: ['/resources/**', '/dashboard/**'] // Force skip auth-heavy areas
+      crawlLinks: true,
+      failOnError: false,
     }
   },
 
